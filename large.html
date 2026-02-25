@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Large Space</title>
+<style>
+body { margin:0; }
+</style>
+</head>
+<body>
+
+<div id="public-calendar"></div>
+
+<script>
+var origin = "https://forneyisd.incidentiq.com";
+
+(function(doc, tag, id){
+ if (doc.getElementById(id)) return;
+ var js = doc.createElement(tag);
+ js.id = id;
+ js.src = origin + "/core/shared/public-calendar.js";
+ js.type = "text/javascript";
+ doc.body.appendChild(js);
+}(document, 'script', 'public-calendar-script'));
+
+window.onload = function() {
+  PublicCalendar.setOptions({
+    origin: origin,
+    targetId: "public-calendar",
+    upcoming: true,
+    viewId:"e5b3f283-4488-f011-b484-002248538047"
+  });
+
+  PublicCalendar.render();
+};
+</script>
+
+</body>
+</html>
