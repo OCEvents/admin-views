@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Next 30 Days</title>
+<style>
+body { margin:0; }
+</style>
+</head>
+<body>
+
+<div id="public-calendar"></div>
+
+<script>
+var origin = "https://forneyisd.incidentiq.com";
+
+(function(doc, tag, id){
+ if (doc.getElementById(id)) return;
+ var js = doc.createElement(tag);
+ js.id = id;
+ js.src = origin + "/core/shared/public-calendar.js";
+ js.type = "text/javascript";
+ doc.body.appendChild(js);
+}(document, 'script', 'public-calendar-script'));
+
+window.onload = function() {
+  PublicCalendar.setOptions({
+    origin: origin,
+    targetId: "public-calendar",
+    upcoming: true,
+    viewId:"a3bc5715-cf52-f011-8f7c-000d3a0db9a7"
+  });
+
+  PublicCalendar.render();
+};
+</script>
+
+</body>
+</html>
