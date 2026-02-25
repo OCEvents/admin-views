@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Arena</title>
+<style>
+body { margin:0; }
+</style>
+</head>
+<body>
+
+<div id="public-calendar"></div>
+
+<script>
+var origin = "https://forneyisd.incidentiq.com";
+
+(function(doc, tag, id){
+ if (doc.getElementById(id)) return;
+ var js = doc.createElement(tag);
+ js.id = id;
+ js.src = origin + "/core/shared/public-calendar.js";
+ js.type = "text/javascript";
+ doc.body.appendChild(js);
+}(document, 'script', 'public-calendar-script'));
+
+window.onload = function() {
+  PublicCalendar.setOptions({
+    origin: origin,
+    targetId: "public-calendar",
+    upcoming: true,
+    viewId:"e04a90e9-45be-f011-8193-000d3a7c34a9"
+  });
+
+  PublicCalendar.render();
+};
+</script>
+
+</body>
+</html>
