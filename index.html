@@ -22,29 +22,29 @@ body { margin:0; font-family:Arial, sans-serif; }
 <body>
 
 <div class="tabs">
-  <button class="tab-button" onclick="openTab('all')">All</button>
-  <button class="tab-button" onclick="openTab('next30')">Next 30 Days</button>
-  <button class="tab-button" onclick="openTab('large')">Large Space</button>
-  <button class="tab-button" onclick="openTab('floors')">Arena, View & Exercise Floors</button>
-  <button class="tab-button" onclick="openTab('arena')">Arena</button>
-  <button class="tab-button" onclick="openTab('view')">The View</button>
-  <button class="tab-button" onclick="openTab('theatre')">Theatre Wing</button>
-  <button class="tab-button" onclick="openTab('denied')">Denied/Canceled</button>
+  <button onclick="openTab('all','c6ace88f-673d-f011-a5f1-000d3a0db0e1')">All</button>
+  <button onclick="openTab('next30','a3bc5715-cf52-f011-8f7c-000d3a0db9a7')">Next 30 Days</button>
+  <button onclick="openTab('large','e5b3f283-4488-f011-b484-002248538047')">Large Space</button>
+  <button onclick="openTab('floors','d12caaae-6541-f011-8f7d-000d3a0db550')">Arena, View & Exercise Floors</button>
+  <button onclick="openTab('arena','e04a90e9-45be-f011-8193-000d3a7c34a9')">Arena</button>
+  <button onclick="openTab('view','d28a5b99-45be-f011-8193-000d3a7c34a9')">The View</button>
+  <button onclick="openTab('theatre','5e99f243-6641-f011-8f7d-000d3a0db550')">Theatre Wing</button>
+  <button onclick="openTab('denied','049580a0-8641-f011-8f7d-000d3a0db550')">Denied/Canceled</button>
 </div>
 
-<div id="all" class="tab-content active"><div id="cal1"></div></div>
-<div id="next30" class="tab-content"><div id="cal2"></div></div>
-<div id="large" class="tab-content"><div id="cal3"></div></div>
-<div id="floors" class="tab-content"><div id="cal4"></div></div>
-<div id="arena" class="tab-content"><div id="cal5"></div></div>
-<div id="view" class="tab-content"><div id="cal6"></div></div>
-<div id="theatre" class="tab-content"><div id="cal7"></div></div>
-<div id="denied" class="tab-content"><div id="cal8"></div></div>
+<div id="all" class="tab-content active"></div>
+<div id="next30" class="tab-content"></div>
+<div id="large" class="tab-content"></div>
+<div id="floors" class="tab-content"></div>
+<div id="arena" class="tab-content"></div>
+<div id="view" class="tab-content"></div>
+<div id="theatre" class="tab-content"></div>
+<div id="denied" class="tab-content"></div>
 
 <script>
 var origin = "https://forneyisd.incidentiq.com";
+var loadedTabs = {};
 
-// Load Public Calendar script once
 (function(doc, tag, id){
   if (doc.getElementById(id)) return;
   var js = doc.createElement(tag);
@@ -54,78 +54,31 @@ var origin = "https://forneyisd.incidentiq.com";
   doc.body.appendChild(js);
 }(document, 'script', 'public-calendar-script'));
 
-function openTab(tabId) {
+function openTab(tabId, viewId) {
+
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
+  var container = document.getElementById(tabId);
+  container.classList.add('active');
+
+  if (!loadedTabs[tabId]) {
+    container.innerHTML = '<div id="'+tabId+'-calendar"></div>';
+
+    PublicCalendar.setOptions({
+      origin: origin,
+      targetId: tabId + "-calendar",
+      upcoming: true,
+      viewId: viewId
+    });
+
+    PublicCalendar.render();
+
+    loadedTabs[tabId] = true;
+  }
 }
 
-// Wait for calendar script to load
-window.addEventListener('load', function() {
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal1",
-    upcoming: true,
-    viewId: "c6ace88f-673d-f011-a5f1-000d3a0db0e1"
-  });
-  PublicCalendar.render();
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal2",
-    upcoming: true,
-    viewId: "a3bc5715-cf52-f011-8f7c-000d3a0db9a7"
-  });
-  PublicCalendar.render();
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal3",
-    upcoming: true,
-    viewId: "e5b3f283-4488-f011-b484-002248538047"
-  });
-  PublicCalendar.render();
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal4",
-    upcoming: true,
-    viewId: "d12caaae-6541-f011-8f7d-000d3a0db550"
-  });
-  PublicCalendar.render();
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal5",
-    upcoming: true,
-    viewId: "e04a90e9-45be-f011-8193-000d3a7c34a9"
-  });
-  PublicCalendar.render();
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal6",
-    upcoming: true,
-    viewId: "d28a5b99-45be-f011-8193-000d3a7c34a9"
-  });
-  PublicCalendar.render();
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal7",
-    upcoming: true,
-    viewId: "5e99f243-6641-f011-8f7d-000d3a0db550"
-  });
-  PublicCalendar.render();
-
-  PublicCalendar.setOptions({
-    origin: origin,
-    targetId: "cal8",
-    upcoming: true,
-    viewId: "049580a0-8641-f011-8f7d-000d3a0db550"
-  });
-  PublicCalendar.render();
-
+// Auto-load first tab
+window.addEventListener("load", function() {
+  openTab('all','c6ace88f-673d-f011-a5f1-000d3a0db0e1');
 });
 </script>
 
